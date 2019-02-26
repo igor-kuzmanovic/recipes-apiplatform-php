@@ -21,9 +21,9 @@ INSERT INTO tag (name) VALUES ('Fruity');
 INSERT INTO tag (name) VALUES ('Tangy');
 INSERT INTO tag (name) VALUES ('Greasy');
 
-INSERT INTO recipe (title, description, date, category_id, image) VALUES ('Pepperoni Pizza', 'A pepperoni pizza with additional hot-sauce', '2019-03-03', (SELECT id FROM category WHERE name = 'Breakfast'), 'http://localhost:8000/default.jpeg');
-INSERT INTO recipe (title, description, date, category_id, image) VALUES ('Vegetarian Pizza', 'A vegetarian pizza rich with vitamins.', '2019-02-02', (SELECT id FROM category WHERE name = 'Dinner'), 'http://localhost:8000/default.jpeg');
-INSERT INTO recipe (title, description, date, category_id, image) VALUES ('Pineapple Pizza', 'A fruity pizza rich with a tropical twist.', '2019-01-01', (SELECT id FROM category WHERE name = 'Lunch'), 'http://localhost:8000/images/default.jpeg');
+INSERT INTO recipe (title, description, creation_date, category_id, image) VALUES ('Pepperoni Pizza', 'A pepperoni pizza with additional hot-sauce', '2019-03-03 16:33:11', (SELECT id FROM category WHERE name = 'Breakfast'), 'http://localhost:8000/default.jpeg');
+INSERT INTO recipe (title, description, creation_date, category_id, image) VALUES ('Vegetarian Pizza', 'A vegetarian pizza rich with vitamins.', '2019-02-02 15:23:23', (SELECT id FROM category WHERE name = 'Dinner'), 'http://localhost:8000/default.jpeg');
+INSERT INTO recipe (title, description, creation_date, category_id, image) VALUES ('Pineapple Pizza', 'A fruity pizza rich with a tropical twist.', '2019-01-01 09:11:57', (SELECT id FROM category WHERE name = 'Lunch'), 'http://localhost:8000/images/default.jpeg');
 
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pepperoni Pizza'), (SELECT id FROM ingredient WHERE name = 'Dough'));
 INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pepperoni Pizza'), (SELECT id FROM ingredient WHERE name = 'Ketchup'));
@@ -45,3 +45,6 @@ INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE 
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Vegetarian Pizza'), (SELECT id FROM tag WHERE name = 'Sweet'));
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pineapple Pizza'), (SELECT id FROM tag WHERE name = 'Tangy'));
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pineapple Pizza'), (SELECT id FROM tag WHERE name = 'Sweet'));
+
+INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('admin@email.com', 'password', '["ROLE_ADMIN"]',	'2019-02-26 13:37:15', true);
+INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('user@email.com', 'password', '["ROLE_USER"]', '2019-02-26 13:38:35', true);                                                                    )

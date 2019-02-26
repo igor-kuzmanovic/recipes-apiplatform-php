@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Recipe
 {
@@ -55,9 +56,9 @@ class Recipe
     private $tags;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
-    private $date;
+    private $creationDate;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -102,14 +103,14 @@ class Recipe
     }
 
     /**
-     * @return Collection|ingredient[]
+     * @return Collection|Ingredient[]
      */
     public function getIngredients(): Collection
     {
         return $this->ingredients;
     }
 
-    public function addIngredient(ingredient $ingredient): self
+    public function addIngredient(Ingredient $ingredient): self
     {
         if (!$this->ingredients->contains($ingredient)) {
             $this->ingredients[] = $ingredient;
@@ -118,7 +119,7 @@ class Recipe
         return $this;
     }
 
-    public function removeIngredient(ingredient $ingredient): self
+    public function removeIngredient(Ingredient $ingredient): self
     {
         if ($this->ingredients->contains($ingredient)) {
             $this->ingredients->removeElement($ingredient);
@@ -127,12 +128,12 @@ class Recipe
         return $this;
     }
 
-    public function getCategory(): ?category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?category $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
@@ -140,14 +141,14 @@ class Recipe
     }
 
     /**
-     * @return Collection|tag[]
+     * @return Collection|Tag[]
      */
     public function getTags(): Collection
     {
         return $this->tags;
     }
 
-    public function addTag(tag $tag): self
+    public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
@@ -156,7 +157,7 @@ class Recipe
         return $this;
     }
 
-    public function removeTag(tag $tag): self
+    public function removeTag(Tag $tag): self
     {
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
@@ -165,25 +166,16 @@ class Recipe
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->creationDate;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setCreationDate(\DateTimeInterface $creationDate): self
     {
-        $this->date = $date;
+        $this->creationDate = $creationDate;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @throws \Exception
-     */
-    public function onCreate() : void
-    {
-        $this->setDate(new \DateTime('now'));
     }
 
     public function getImage(): ?string
@@ -196,5 +188,14 @@ class Recipe
         $this->image = $image;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @throws \Exception
+     */
+    public function onCreate() : void
+    {
+        $this->creationDate = new \DateTime('now');
     }
 }
