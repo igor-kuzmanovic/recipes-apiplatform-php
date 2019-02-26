@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -21,11 +24,16 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Length(max=255)
+     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(max=255)
      */
     private $password;
 
@@ -114,9 +122,13 @@ class User implements UserInterface
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    /**
+     * @ORM\PrePersist
+     * @throws \Exception
+     */
+    public function setCreationDate(): self
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = new \DateTime('now');
 
         return $this;
     }
@@ -131,15 +143,6 @@ class User implements UserInterface
         $this->isActive = $isActive;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @throws \Exception
-     */
-    public function onCreate() : void
-    {
-        $this->creationDate = new \DateTime('now');
     }
 
     public function getSalt(): ?string

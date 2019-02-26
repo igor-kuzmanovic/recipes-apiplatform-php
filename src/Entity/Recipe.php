@@ -171,9 +171,13 @@ class Recipe
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    /**
+     * @ORM\PrePersist
+     * @throws \Exception
+     */
+    public function setCreationDate(): self
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = new \DateTime('now');
 
         return $this;
     }
@@ -188,14 +192,5 @@ class Recipe
         $this->image = $image;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @throws \Exception
-     */
-    public function onCreate() : void
-    {
-        $this->creationDate = new \DateTime('now');
     }
 }
