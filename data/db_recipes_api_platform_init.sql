@@ -46,5 +46,5 @@ INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE 
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pineapple Pizza'), (SELECT id FROM tag WHERE name = 'Tangy'));
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pineapple Pizza'), (SELECT id FROM tag WHERE name = 'Sweet'));
 
-INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('admin@email.com', 'password', '["ROLE_ADMIN"]',	'2019-02-26 13:37:15', true);
+INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('admin@email.com', 'password', '[]',	'2019-02-26 13:37:15', true);
 INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('user@email.com', 'password', '["ROLE_USER"]', '2019-02-26 13:38:35', true);                                                                    )

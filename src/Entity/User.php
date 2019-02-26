@@ -3,9 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -24,16 +22,11 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Length(max=255)
-     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank
-     * @Assert\Length(max=255)
      */
     private $password;
 
@@ -96,7 +89,10 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function addRole(string $role): self
@@ -122,18 +118,25 @@ class User implements UserInterface
         return $this->creationDate;
     }
 
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      * @throws \Exception
      */
-    public function setCreationDate(): self
+    public function setCreationDateOnCreation(): self
     {
         $this->creationDate = new \DateTime('now');
 
         return $this;
     }
 
-    public function getIsActive(): Boolean
+    public function getIsActive(): bool
     {
         return $this->isActive;
     }

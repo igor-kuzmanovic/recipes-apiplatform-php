@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,34 +23,27 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @Assert\Length(max=255)
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=510)
-     * @Assert\NotBlank
-     * @Assert\Length(max=510)
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
-     * @Assert\Count(min=1, max=20)
      */
     private $ingredients;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull
      */
     private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
-     * @Assert\Count(min=1, max=20)
      */
     private $tags;
 
@@ -62,8 +54,6 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @Assert\Url
      */
     private $image;
 
@@ -171,11 +161,18 @@ class Recipe
         return $this->creationDate;
     }
 
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      * @throws \Exception
      */
-    public function setCreationDate(): self
+    public function setCreationDateOnCreation(): self
     {
         $this->creationDate = new \DateTime('now');
 
