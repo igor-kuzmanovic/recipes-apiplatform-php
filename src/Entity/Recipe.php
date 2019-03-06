@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={"groups"={"recipe"}})
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -18,42 +20,53 @@ class Recipe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"recipe"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"recipe"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=510)
+     * @Groups({"recipe"})
      */
     private $description;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
+     * @ApiSubresource
+     * @Groups({"recipe"})
      */
     private $ingredients;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
+     * @ApiSubresource
+     * @Groups({"recipe"})
      */
     private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     * @ApiSubresource
+     * @Groups({"recipe"})
      */
     private $tags;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"recipe"})
      */
     private $creationDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"recipe"})
      */
     private $image;
 
