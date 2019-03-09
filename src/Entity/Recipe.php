@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -25,35 +26,42 @@ class Recipe
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=200)
+     * @ORM\Column(type="string", length=200, unique=true)
      * @Groups({"recipe"})
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=510)
+     * @Assert\NotBlank
+     * @Assert\Length(min=2, max=500)
+     * @ORM\Column(type="string", length=500)
      * @Groups({"recipe"})
      */
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
+     * @Assert\NotBlank
      * @ApiSubresource
+     * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
      * @Groups({"recipe"})
      */
     private $ingredients;
 
     /**
+     * @Assert\NotBlank
+     * @ApiSubresource
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
-     * @ApiSubresource
      * @Groups({"recipe"})
      */
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     * @Assert\NotBlank
      * @ApiSubresource
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
      * @Groups({"recipe"})
      */
     private $tags;
@@ -65,6 +73,7 @@ class Recipe
     private $creationDate;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      * @Groups({"recipe"})
      */
