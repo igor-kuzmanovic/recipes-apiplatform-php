@@ -17,6 +17,7 @@ class Tag
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"recipe"})
      */
     private $id;
 
