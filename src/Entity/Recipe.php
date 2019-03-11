@@ -72,14 +72,6 @@ class Recipe
      */
     private $creationDate;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\ManyToOne(targetEntity="App\Entity\MediaObject")
-     * @ORM\JoinColumn(nullable=true)
-     * @Groups({"recipe:read"})
-     */
-    public $image;
-
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -198,18 +190,6 @@ class Recipe
     public function setCreationDateOnCreation(): self
     {
         $this->creationDate = new \DateTime('now');
-
-        return $this;
-    }
-
-    public function getImage(): ?MediaObject
-    {
-        return $this->image;
-    }
-
-    public function setImage(MediaObject $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
