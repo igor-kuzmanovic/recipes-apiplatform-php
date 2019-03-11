@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"recipe"}})
+ * @ApiResource(normalizationContext={"groups": {"recipe:read"}})
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -22,7 +21,7 @@ class Recipe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $id;
 
@@ -30,7 +29,7 @@ class Recipe
      * @Assert\NotBlank
      * @Assert\Length(min=2, max=200)
      * @ORM\Column(type="string", length=200, unique=true)
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $title;
 
@@ -38,7 +37,7 @@ class Recipe
      * @Assert\NotBlank
      * @Assert\Length(min=2, max=500)
      * @ORM\Column(type="string", length=500)
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $description;
 
@@ -46,7 +45,7 @@ class Recipe
      * @Assert\NotBlank
      * @ApiSubresource
      * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $ingredients;
 
@@ -55,7 +54,7 @@ class Recipe
      * @ApiSubresource
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $category;
 
@@ -63,13 +62,13 @@ class Recipe
      * @Assert\NotBlank
      * @ApiSubresource
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $tags;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $creationDate;
 
@@ -77,8 +76,7 @@ class Recipe
      * @Assert\NotBlank
      * @ORM\ManyToOne(targetEntity="App\Entity\MediaObject")
      * @ORM\JoinColumn(nullable=true)
-     * @ApiProperty(iri="http://schema.org/image")
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     public $image;
 

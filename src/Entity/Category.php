@@ -17,7 +17,7 @@ class Category
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $id;
 
@@ -25,7 +25,7 @@ class Category
      * @Assert\NotBlank
      * @Assert\Length(min=2, max=50)
      * @ORM\Column(type="string", length=50, unique=true)
-     * @Groups({"recipe"})
+     * @Groups({"recipe:read"})
      */
     private $name;
 
