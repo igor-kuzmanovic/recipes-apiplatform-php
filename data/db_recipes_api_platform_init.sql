@@ -1,3 +1,6 @@
+INSERT INTO user (email, password, roles) VALUES ('admin@email.com', '$2y$13$xSicPNrTx8B6El75k8yeb.GEzyXuJhVkgJOXzNiTIDEFqbJpIp5Zy', '["ROLE_ADMIN"]');
+INSERT INTO user (email, password, roles) VALUES ('user@email.com', '$2y$13$6xjb41Jo7Fkyh7mfngFjFenRI.oBROHt48IHl6JDifqyHdF7xHaHu', '["ROLE_USER"]');
+
 INSERT INTO ingredient (name) VALUES ('Potato');
 INSERT INTO ingredient (name) VALUES ('Vinegar');
 INSERT INTO ingredient (name) VALUES ('Cheese');
@@ -45,6 +48,3 @@ INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE 
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Vegetarian Pizza'), (SELECT id FROM tag WHERE name = 'Sweet'));
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pineapple Pizza'), (SELECT id FROM tag WHERE name = 'Tangy'));
 INSERT INTO recipe_tag (recipe_id, tag_id) VALUES ((SELECT id FROM recipe WHERE title = 'Pineapple Pizza'), (SELECT id FROM tag WHERE name = 'Sweet'));
-
-# INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('admin@email.com', 'password', '[]',	'2019-02-26 13:37:15', true);
-# INSERT INTO user (email, password, roles, creation_date, is_active) VALUES ('user@email.com', 'password', '["ROLE_USER"]', '2019-02-26 13:38:35', true);                                                                    )

@@ -92,7 +92,7 @@
             "ref": "509b1542f3180a1cfe248ade8b7bf5092c2d4127"
         },
         "files": [
-            "config/packages/lexik_jwt_authentication.yaml"
+            "./config/packages/lexik_jwt_authentication.yaml"
         ]
     },
     "namshi/jose": {
