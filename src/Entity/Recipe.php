@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(normalizationContext={"groups": {"recipe:read"}})
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("title")
  */
 class Recipe
 {
@@ -26,43 +27,40 @@ class Recipe
     private $id;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min=2, max=200)
-     * @ORM\Column(type="string", length=200, unique=true)
+     * @ORM\Column(type="string", length=100, unique=true)
      * @Groups({"recipe:read"})
+     * @Assert\NotBlank
+     * @Assert\Length(max=100)
      */
     private $title;
 
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min=2, max=500)
      * @ORM\Column(type="string", length=500)
      * @Groups({"recipe:read"})
+     * @Assert\NotBlank
+     * @Assert\Length(max=500)
      */
     private $description;
 
     /**
-     * @Assert\NotBlank
-     * @ApiSubresource
      * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
      * @Groups({"recipe:read"})
+     * @Assert\NotBlank
      */
     private $ingredients;
 
     /**
-     * @Assert\NotBlank
-     * @ApiSubresource
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"recipe:read"})
+     * @Assert\NotBlank
      */
     private $category;
 
     /**
-     * @Assert\NotBlank
-     * @ApiSubresource
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
      * @Groups({"recipe:read"})
+     * @Assert\NotBlank
      */
     private $tags;
 
@@ -187,7 +185,7 @@ class Recipe
      * @ORM\PrePersist
      * @throws \Exception
      */
-    public function setCreationDateOnCreation(): self
+    public function generateCreationDate(): self
     {
         $this->creationDate = new \DateTime('now');
 
