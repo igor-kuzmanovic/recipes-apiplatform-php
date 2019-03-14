@@ -1,8 +1,8 @@
 register:
-    path: /register
-    controller: App\Controller\AuthController::register
+    path: /api/confirm_registration
+    controller: App\Controller\AuthController::confirmRegistration
     methods: POST
 
 login_check:
-    path: /login_check
+    path: /api/login
     methods: POST

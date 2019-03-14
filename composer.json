@@ -5,6 +5,7 @@
     "php": "^7.2.14",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-json": "^1.6",
     "api-platform/api-pack": "^1.2",
     "lexik/jwt-authentication-bundle": "^2.6",
     "symfony/console": "4.2.*",

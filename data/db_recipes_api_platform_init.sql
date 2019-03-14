@@ -1,5 +1,5 @@
-INSERT INTO user (email, password, roles) VALUES ('admin@email.com', '$2y$13$xSicPNrTx8B6El75k8yeb.GEzyXuJhVkgJOXzNiTIDEFqbJpIp5Zy', '["ROLE_ADMIN"]');
-INSERT INTO user (email, password, roles) VALUES ('user@email.com', '$2y$13$6xjb41Jo7Fkyh7mfngFjFenRI.oBROHt48IHl6JDifqyHdF7xHaHu', '["ROLE_USER"]');
+INSERT INTO user (email, password, roles, is_enabled) VALUES ('admin@email.com', '$2y$13$xSicPNrTx8B6El75k8yeb.GEzyXuJhVkgJOXzNiTIDEFqbJpIp5Zy', '["ROLE_ADMIN"]', true);
+INSERT INTO user (email, password, roles, is_enabled) VALUES ('user@email.com', '$2y$13$6xjb41Jo7Fkyh7mfngFjFenRI.oBROHt48IHl6JDifqyHdF7xHaHu', '["ROLE_USER"]', true);
 
 INSERT INTO ingredient (name) VALUES ('Potato');
 INSERT INTO ingredient (name) VALUES ('Vinegar');

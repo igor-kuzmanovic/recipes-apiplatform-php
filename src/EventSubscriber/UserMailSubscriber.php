@@ -18,14 +18,14 @@ final class UserMailSubscriber implements EventSubscriberInterface
         $this->mailer = $mailer;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             KernelEvents::VIEW => ['sendMail', EventPriorities::POST_WRITE],
         ];
     }
 
-    public function sendMail(GetResponseForControllerResultEvent $event)
+    public function sendMail(GetResponseForControllerResultEvent $event) : void
     {
         $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
@@ -34,10 +34,14 @@ final class UserMailSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $email = $user->getEmail();
+        $confirmationToken = $user->getConfirmationToken();
+
         $message = (new \Swift_Message('Welcome to RecipesApp'))
-            ->setFrom('default@email.com')
-            ->setTo($user->getEmail())
-            ->setBody(sprintf('Your account has been created.'));
+            ->setFrom('recipesapp.mailer@gmail.com')
+//            ->setTo($email)
+            ->setTo('recipesapp.mailer@gmail.com')
+            ->setBody(sprintf('Your account has been created. Token: %s', $confirmationToken));
 
         $this->mailer->send($message);
     }
