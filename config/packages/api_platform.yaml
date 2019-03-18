@@ -6,8 +6,3 @@ api_platform:
         json: ["application/json"]
     mapping:
         paths: ["%kernel.project_dir%/src/Entity"]
-    swagger:
-        api_keys:
-            apiKey:
-                name: Authorization
-                type: header
