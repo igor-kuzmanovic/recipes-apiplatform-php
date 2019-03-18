@@ -11,7 +11,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource(normalizationContext={"groups": {"recipe:read"}})
+ * @ApiResource(
+ *     attributes={"access_control"="is_granted('ROLE_USER')"},
+ *     normalizationContext={"groups": {"recipe:read"}},
+ *     collectionOperations={
+ *         "get",
+ *         "post",
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("title")

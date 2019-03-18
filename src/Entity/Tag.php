@@ -9,7 +9,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={"access_control"="is_granted('ROLE_USER')"},
+ *     collectionOperations={
+ *         "get",
+ *         "post"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  * @UniqueEntity("name")
  */
