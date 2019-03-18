@@ -37,11 +37,20 @@ final class UserMailSubscriber implements EventSubscriberInterface
         $email = $user->getEmail();
         $confirmationToken = $user->getConfirmationToken();
 
-        $message = (new \Swift_Message('Welcome to RecipesApp'))
-            ->setFrom('recipesapp.mailer@gmail.com')
+        $message = (new \Swift_Message('RecipesApp, registration successful!'))
+            ->setContentType('text/html')
+            ->setFrom(['recipesapp.mailer@gmail.com' => 'RecipesApp'])
 //            ->setTo($email)
             ->setTo('recipesapp.mailer@gmail.com')
-            ->setBody(sprintf('Your account has been created. Token: %s', $confirmationToken));
+            ->setBody(sprintf(
+                "<h3>You did it! You registered!</h3>
+                <p>Hi, %s! You've successfully registered.</p>
+                <p>To confirm your account, go to: 
+                <a href='http://localhost:3000/confirm_registration?email=%s&confirmationToken=%s'>Link</a>
+                </p>
+                <p>Your registration token is:</p>
+                <code>%s</code>", $email, $email, $confirmationToken, $confirmationToken
+            ));
 
         $this->mailer->send($message);
     }
