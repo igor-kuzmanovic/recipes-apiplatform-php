@@ -1,4 +1,4 @@
-register:
+confirm_registration:
     path: /api/confirm_registration
     controller: App\Controller\AuthController::confirmRegistration
     methods: POST

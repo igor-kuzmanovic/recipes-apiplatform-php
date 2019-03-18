@@ -8,9 +8,9 @@ parameters:
 doctrine:
     dbal:
         # configure these for your database server
-        #driver: 'pdo_mysql'
-        #server_version: '5.7'
-        driver: "pdo_sqlite"
+        driver: 'pdo_mysql'
+        server_version: '5.7'
+        #driver: "pdo_sqlite"
         memory: true
         default_table_options:
             charset: utf8mb4

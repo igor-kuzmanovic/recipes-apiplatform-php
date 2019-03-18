@@ -23,6 +23,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             }
  *         }
  *     },
+ *     itemOperations={
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
