@@ -13,6 +13,11 @@ new_password:
     controller: App\Controller\AuthController:newPassword
     methods: POST
 
+update_user:
+    path: /api/user/update
+    controller: App\Controller\UserController:updateUser
+    methods: PUT
+
 login_check:
     path: /api/login
     methods: POST

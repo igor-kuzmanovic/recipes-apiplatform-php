@@ -25,7 +25,7 @@ class AuthController extends AbstractController
         $user = $em->getRepository(User::class)->findOneBy(array('email' => $email, 'confirmationToken' => $confirmationToken));
         if (!$user instanceof User)
         {
-            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
+            return new Response(null, Response::HTTP_BAD_REQUEST);
         }
 
         $user->setConfirmationToken(null);
@@ -46,7 +46,7 @@ class AuthController extends AbstractController
         $user = $em->getRepository(User::class)->findOneBy(array('email' => $email));
         if (!$user instanceof User)
         {
-            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
+            return new Response(null, Response::HTTP_BAD_REQUEST);
         }
 
         $resetPasswordToken = $tokenGenerator->getRandomSecureToken();
@@ -89,7 +89,7 @@ class AuthController extends AbstractController
         $user = $em->getRepository(User::class)->findOneBy(array('email' => $email, 'resetPasswordToken' => $resetPasswordToken));
         if (!$user instanceof User)
         {
-            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
+            return new Response(null, Response::HTTP_BAD_REQUEST);
         }
 
         $user->setResetPasswordToken(null);
