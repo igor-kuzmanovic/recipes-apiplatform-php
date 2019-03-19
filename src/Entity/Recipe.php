@@ -14,14 +14,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     attributes={"access_control"="is_granted('ROLE_USER')"},
  *     normalizationContext={"groups": {"recipe:read"}},
+ *     denormalizationContext={"groups": {"recipe:write"}},
  *     collectionOperations={
  *         "get",
  *         "post",
  *     },
  *     itemOperations={
  *         "get",
- *         "put"={"access_control"="is_granted('ROLE_ADMIN')"},
- *         "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"},
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN') or object.getUser() == user"}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\RecipeRepository")
@@ -34,13 +35,13 @@ class Recipe
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"recipe:read"})
+     * @Groups({"recipe:read", "recipe:write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
-     * @Groups({"recipe:read"})
+     * @Groups({"recipe:read", "recipe:write"})
      * @Assert\NotBlank
      * @Assert\Length(max=100)
      */
@@ -48,7 +49,7 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=500)
-     * @Groups({"recipe:read"})
+     * @Groups({"recipe:read", "recipe:write"})
      * @Assert\NotBlank
      * @Assert\Length(max=500)
      */
@@ -56,7 +57,7 @@ class Recipe
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Ingredient")
-     * @Groups({"recipe:read"})
+     * @Groups({"recipe:read", "recipe:write"})
      * @Assert\NotBlank
      */
     private $ingredients;
@@ -64,17 +65,24 @@ class Recipe
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"recipe:read"})
+     * @Groups({"recipe:read", "recipe:write"})
      * @Assert\NotBlank
      */
     private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
-     * @Groups({"recipe:read"})
+     * @Groups({"recipe:read", "recipe:write"})
      * @Assert\NotBlank
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"recipe:read"})
+     */
+    private $user;
 
     /**
      * @ORM\Column(type="datetime")
@@ -177,6 +185,18 @@ class Recipe
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

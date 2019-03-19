@@ -44,7 +44,7 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @Assert\Length(max=180)
      * @Assert\Email
-     * @Groups({"user:register"})
+     * @Groups({"user:register", "recipe:read"})
      */
     private $email;
 
