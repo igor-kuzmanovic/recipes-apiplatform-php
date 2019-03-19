@@ -67,6 +67,11 @@ class User implements UserInterface
     private $confirmationToken;
 
     /**
+     * @ORM\Column(type="string", length=30, unique=true, nullable=true)
+     */
+    private $resetPasswordToken;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $isEnabled = false;
@@ -120,14 +125,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSalt()
-    {
-    }
-
-    public function eraseCredentials() : void
-    {
-    }
-
     public function getConfirmationToken(): ?string
     {
         return $this->confirmationToken;
@@ -136,6 +133,18 @@ class User implements UserInterface
     public function setConfirmationToken(?string $confirmationToken): self
     {
         $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function setResetPasswordToken(?string $resetPasswordToken): self
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
 
         return $this;
     }
@@ -150,5 +159,13 @@ class User implements UserInterface
         $this->isEnabled = $isEnabled;
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function eraseCredentials() : void
+    {
     }
 }

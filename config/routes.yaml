@@ -3,6 +3,16 @@ confirm_registration:
     controller: App\Controller\AuthController::confirmRegistration
     methods: POST
 
+reset_password:
+    path: /api/reset_password
+    controller: App\Controller\AuthController:resetPassword
+    methods: POST
+
+new_password:
+    path: /api/new_password
+    controller: App\Controller\AuthController:newPassword
+    methods: POST
+
 login_check:
     path: /api/login
     methods: POST
