@@ -65,7 +65,7 @@ class AuthController extends AbstractController
             ->setTo('recipesapp.mailer@gmail.com')
             ->setBody(sprintf(
                 "<h3>Your password has been reset!</h3>
-                <p>Hi, %s! You've successfully registered.</p>
+                <p>Hi, %s!</p>
                 <p>To create a new password go to: 
                 <a href='http://localhost:3000/new_password?email=%s&resetPasswordToken=%s'>Link</a>
                 </p>
