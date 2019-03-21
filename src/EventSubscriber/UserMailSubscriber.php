@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class UserMailSubscriber implements EventSubscriberInterface
 {
+    private const EMAIL = 'recipesapp.mailer@gmail.com';
+    private const URL = 'http://localhost:3000/confirm_registration';
     private $mailer;
 
     public function __construct(\Swift_Mailer $mailer)
@@ -39,17 +41,17 @@ final class UserMailSubscriber implements EventSubscriberInterface
 
         $message = (new \Swift_Message('RecipesApp, registration successful!'))
             ->setContentType('text/html')
-            ->setFrom(['recipesapp.mailer@gmail.com' => 'RecipesApp'])
+            ->setFrom([$this->EMAIL => 'RecipesApp'])
 //            ->setTo($email)
-            ->setTo('recipesapp.mailer@gmail.com')
+            ->setTo($this->EMAIL)
             ->setBody(sprintf(
                 "<h3>You did it! You registered!</h3>
                 <p>Hi, %s! You've successfully registered.</p>
                 <p>To confirm your account, go to: 
-                <a href='http://localhost:3000/confirm_registration?email=%s&confirmationToken=%s'>Link</a>
+                <a href='%s?email=%s&confirmationToken=%s'>Link</a>
                 </p>
                 <p>Your registration token is:</p>
-                <code>%s</code>", $email, $email, $confirmationToken, $confirmationToken
+                <code>%s</code>", $email, $email, $this->URL, $confirmationToken, $confirmationToken
             ));
 
         $this->mailer->send($message);

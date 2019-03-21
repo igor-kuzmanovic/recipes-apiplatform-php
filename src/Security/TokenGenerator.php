@@ -4,7 +4,7 @@ namespace App\Security;
 
 class TokenGenerator
 {
-    private const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    private const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     /**
      * @param int $length
@@ -14,7 +14,8 @@ class TokenGenerator
     {
         $token = '';
 
-        try {
+        try 
+        {
             $maxNumber = strlen(self::ALPHABET);
 
             for ($i = 0; $i < $length; $i++) {

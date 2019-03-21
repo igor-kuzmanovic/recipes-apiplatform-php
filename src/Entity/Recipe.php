@@ -216,11 +216,13 @@ class Recipe
 
     /**
      * @ORM\PrePersist
-     * @throws \Exception
      */
     public function generateCreationDate(): self
     {
-        $this->creationDate = new \DateTime('now');
+        try
+        {
+            $this->creationDate = new \DateTime('now');
+        } catch (\Exception $exception) { }
 
         return $this;
     }

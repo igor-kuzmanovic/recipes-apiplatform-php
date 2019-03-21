@@ -15,6 +15,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AuthController extends AbstractController
 {
+    private const EMAIL = 'recipesapp.mailer@gmail.com';
+    private const URL = 'http://localhost:3000/new_password';
+
     public function confirmRegistration(Request $request, EntityManagerInterface $em, JWTTokenManagerInterface $jwtManager) : Response
     {
         $content = new ArrayCollection(json_decode($request->getContent(), true));
@@ -60,17 +63,17 @@ class AuthController extends AbstractController
         $email = $user->getEmail();
         $message = (new \Swift_Message('RecipesApp, password reset!'))
             ->setContentType('text/html')
-            ->setFrom(['recipesapp.mailer@gmail.com' => 'RecipesApp'])
+            ->setFrom([$this->EMAIL => 'RecipesApp'])
 //            ->setTo($email)
-            ->setTo('recipesapp.mailer@gmail.com')
+            ->setTo($this->EMAIL)
             ->setBody(sprintf(
                 "<h3>Your password has been reset!</h3>
                 <p>Hi, %s!</p>
                 <p>To create a new password go to: 
-                <a href='http://localhost:3000/new_password?email=%s&resetPasswordToken=%s'>Link</a>
+                <a href='%s?email=%s&resetPasswordToken=%s'>Link</a>
                 </p>
                 <p>Your password reset token is:</p>
-                <code>%s</code>", $email, $email, $resetPasswordToken, $resetPasswordToken
+                <code>%s</code>", $email, $email, $this->URL, $resetPasswordToken, $resetPasswordToken
             ));
 
         $mailer->send($message);
