@@ -12,7 +12,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
-    public function updateUser(Request $request, EntityManagerInterface $em, JWTTokenManagerInterface $jwtManager, UserPasswordEncoderInterface $encoder) : Response
+    public function updateUser(
+            Request $request, 
+            EntityManagerInterface $em, 
+            JWTTokenManagerInterface $jwtManager, 
+            UserPasswordEncoderInterface $encoder
+        ) : Response
     {
         $content = new ArrayCollection(json_decode($request->getContent(), true));
 

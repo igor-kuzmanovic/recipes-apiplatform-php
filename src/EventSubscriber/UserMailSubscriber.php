@@ -44,15 +44,15 @@ final class UserMailSubscriber implements EventSubscriberInterface
             ->setFrom([$this->EMAIL => 'RecipesApp'])
 //            ->setTo($email)
             ->setTo($this->EMAIL)
-            ->setBody(sprintf(
-                "<h3>You did it! You registered!</h3>
-                <p>Hi, %s! You've successfully registered.</p>
+            ->setBody(
+                "<h3>You did it!</h3>
+                <p>Hi, {$email}! You've successfully registered.</p>
                 <p>To confirm your account, go to: 
-                <a href='%s?email=%s&confirmationToken=%s'>Link</a>
+                <a href='{$this->URL}?email={$email}&confirmationToken={$confirmationToken}'>Link</a>
                 </p>
                 <p>Your registration token is:</p>
-                <code>%s</code>", $email, $email, $this->URL, $confirmationToken, $confirmationToken
-            ));
+                <code><b>{$confirmationToken}</b></code>"
+            );
 
         $this->mailer->send($message);
     }

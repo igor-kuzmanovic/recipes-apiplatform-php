@@ -18,14 +18,20 @@ class AuthController extends AbstractController
     private const EMAIL = 'recipesapp.mailer@gmail.com';
     private const URL = 'http://localhost:3000/new_password';
 
-    public function confirmRegistration(Request $request, EntityManagerInterface $em, JWTTokenManagerInterface $jwtManager) : Response
+    public function confirmRegistration(
+            Request $request, 
+            EntityManagerInterface $em, 
+            JWTTokenManagerInterface $jwtManager
+        ) : Response
     {
         $content = new ArrayCollection(json_decode($request->getContent(), true));
 
         $email = $content->get('email');
         $confirmationToken = $content->get('confirmationToken');
 
-        $user = $em->getRepository(User::class)->findOneBy(array('email' => $email, 'confirmationToken' => $confirmationToken));
+        $user = $em->getRepository(User::class)->findOneBy(
+            array('email' => $email, 'confirmationToken' => $confirmationToken)
+        );
         if (!$user instanceof User)
         {
             return new Response(null, Response::HTTP_BAD_REQUEST);
@@ -40,7 +46,12 @@ class AuthController extends AbstractController
         return new JsonResponse(['token' => $jwtManager->create($user)]);
     }
 
-    public function resetPassword(Request $request, EntityManagerInterface $em, TokenGenerator $tokenGenerator, \Swift_Mailer $mailer) : Response
+    public function resetPassword(
+            Request $request, 
+            EntityManagerInterface $em, 
+            TokenGenerator $tokenGenerator, 
+            \Swift_Mailer $mailer
+        ) : Response
     {
         $content = new ArrayCollection(json_decode($request->getContent(), true));
 
@@ -66,22 +77,27 @@ class AuthController extends AbstractController
             ->setFrom([$this->EMAIL => 'RecipesApp'])
 //            ->setTo($email)
             ->setTo($this->EMAIL)
-            ->setBody(sprintf(
-                "<h3>Your password has been reset!</h3>
-                <p>Hi, %s!</p>
+            ->setBody(
+                "<h3>Hi, {$email}!</h3>
+                <p>Your password has been reset</p>
                 <p>To create a new password go to: 
-                <a href='%s?email=%s&resetPasswordToken=%s'>Link</a>
+                <a href='{$this->URL}?email={$email}&resetPasswordToken={$resetPasswordToken}'>Link</a>
                 </p>
                 <p>Your password reset token is:</p>
-                <code>%s</code>", $email, $email, $this->URL, $resetPasswordToken, $resetPasswordToken
-            ));
+                <code><b>{$resetPasswordToken}</b></code>"
+            );
 
         $mailer->send($message);
 
         return new Response();
     }
 
-    public function newPassword(Request $request, EntityManagerInterface $em, JWTTokenManagerInterface $jwtManager, UserPasswordEncoderInterface $encoder) : Response
+    public function newPassword(
+            Request $request, 
+            EntityManagerInterface $em, 
+            JWTTokenManagerInterface $jwtManager, 
+            UserPasswordEncoderInterface $encoder
+        ) : Response
     {
         $content = new ArrayCollection(json_decode($request->getContent(), true));
 
@@ -89,7 +105,9 @@ class AuthController extends AbstractController
         $resetPasswordToken = $content->get('resetPasswordToken');
         $password = $content->get('password');
 
-        $user = $em->getRepository(User::class)->findOneBy(array('email' => $email, 'resetPasswordToken' => $resetPasswordToken));
+        $user = $em->getRepository(User::class)->findOneBy(
+            array('email' => $email, 'resetPasswordToken' => $resetPasswordToken)
+        );
         if (!$user instanceof User)
         {
             return new Response(null, Response::HTTP_BAD_REQUEST);
