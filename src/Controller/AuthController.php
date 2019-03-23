@@ -74,14 +74,14 @@ class AuthController extends AbstractController
         $email = $user->getEmail();
         $message = (new \Swift_Message('RecipesApp, password reset!'))
             ->setContentType('text/html')
-            ->setFrom([$this->EMAIL => 'RecipesApp'])
+            ->setFrom([self::EMAIL => 'RecipesApp'])
 //            ->setTo($email)
-            ->setTo($this->EMAIL)
+            ->setTo(self::EMAIL)
             ->setBody(
                 "<h3>Hi, {$email}!</h3>
                 <p>Your password has been reset</p>
                 <p>To create a new password go to: 
-                <a href='{$this->URL}?email={$email}&resetPasswordToken={$resetPasswordToken}'>Link</a>
+                <a href='".self::URL."?email={$email}&resetPasswordToken={$resetPasswordToken}'>Link</a>
                 </p>
                 <p>Your password reset token is:</p>
                 <code><b>{$resetPasswordToken}</b></code>"

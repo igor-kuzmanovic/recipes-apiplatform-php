@@ -13,6 +13,7 @@ final class UserMailSubscriber implements EventSubscriberInterface
 {
     private const EMAIL = 'recipesapp.mailer@gmail.com';
     private const URL = 'http://localhost:3000/confirm_registration';
+    
     private $mailer;
 
     public function __construct(\Swift_Mailer $mailer)
@@ -41,14 +42,14 @@ final class UserMailSubscriber implements EventSubscriberInterface
 
         $message = (new \Swift_Message('RecipesApp, registration successful!'))
             ->setContentType('text/html')
-            ->setFrom([$this->EMAIL => 'RecipesApp'])
+            ->setFrom([self::EMAIL => 'RecipesApp'])
 //            ->setTo($email)
-            ->setTo($this->EMAIL)
+            ->setTo(self::EMAIL)
             ->setBody(
                 "<h3>You did it!</h3>
                 <p>Hi, {$email}! You've successfully registered.</p>
                 <p>To confirm your account, go to: 
-                <a href='{$this->URL}?email={$email}&confirmationToken={$confirmationToken}'>Link</a>
+                <a href='".self::URL."?email={$email}&confirmationToken={$confirmationToken}'>Link</a>
                 </p>
                 <p>Your registration token is:</p>
                 <code><b>{$confirmationToken}</b></code>"
