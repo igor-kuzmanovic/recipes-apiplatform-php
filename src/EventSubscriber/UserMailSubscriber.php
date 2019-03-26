@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class UserMailSubscriber implements EventSubscriberInterface
 {
     private const EMAIL = 'recipesapp.mailer@gmail.com';
-    private const URL = 'http://localhost:3000/confirm_registration';
+    private const URL = 'http://192.168.183.74/confirm_registration';
     
     private $mailer;
 

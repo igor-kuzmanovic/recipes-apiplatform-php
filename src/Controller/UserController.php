@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
@@ -15,7 +14,6 @@ class UserController extends AbstractController
     public function updateUser(
             Request $request, 
             EntityManagerInterface $em, 
-            JWTTokenManagerInterface $jwtManager, 
             UserPasswordEncoderInterface $encoder
         ) : Response
     {

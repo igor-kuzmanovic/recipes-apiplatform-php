@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AuthController extends AbstractController
 {
     private const EMAIL = 'recipesapp.mailer@gmail.com';
-    private const URL = 'http://localhost:3000/new_password';
+    private const URL = 'http://192.168.183.74:3000/new_password';
 
     public function confirmRegistration(
             Request $request, 
