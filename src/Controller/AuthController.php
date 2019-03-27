@@ -79,7 +79,7 @@ class AuthController extends AbstractController
             ->setTo(self::EMAIL)
             ->setBody(
                 "<h3>Hi, {$email}!</h3>
-                <p>Your password has been reset</p>
+                <p>Your password has been reset.</p>
                 <p>To create a new password go to: 
                 <a href='".self::URL."?email={$email}&resetPasswordToken={$resetPasswordToken}'>Link</a>
                 </p>
