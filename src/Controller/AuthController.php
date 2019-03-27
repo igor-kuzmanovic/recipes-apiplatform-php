@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AuthController extends AbstractController
 {
+    private const DEBUG = true;
     private const EMAIL = 'recipesapp.mailer@gmail.com';
     private const URL = 'http://192.168.183.74:3000/new_password';
 
@@ -75,8 +76,7 @@ class AuthController extends AbstractController
         $message = (new \Swift_Message('RecipesApp, password reset!'))
             ->setContentType('text/html')
             ->setFrom([self::EMAIL => 'RecipesApp'])
-//            ->setTo($email)
-            ->setTo(self::EMAIL)
+            ->setTo(self::DEBUG ? self::EMAIL : $email)
             ->setBody(
                 "<h3>Hi, {$email}!</h3>
                 <p>Your password has been reset.</p>
