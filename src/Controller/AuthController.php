@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Security\TokenGenerator;
+use App\Services\MailerService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,10 +16,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AuthController extends AbstractController
 {
-    private const DEBUG = true;
-    private const EMAIL = 'recipesapp.mailer@gmail.com';
-    private const URL = 'http://192.168.183.74:3000/new_password';
-
     public function confirmRegistration(
             Request $request, 
             EntityManagerInterface $em, 
@@ -51,7 +48,7 @@ class AuthController extends AbstractController
             Request $request, 
             EntityManagerInterface $em, 
             TokenGenerator $tokenGenerator, 
-            \Swift_Mailer $mailer
+            MailerService $mailer
         ) : Response
     {
         $content = new ArrayCollection(json_decode($request->getContent(), true));
@@ -73,21 +70,8 @@ class AuthController extends AbstractController
         $em->flush();
 
         $email = $user->getEmail();
-        $message = (new \Swift_Message('RecipesApp, password reset!'))
-            ->setContentType('text/html')
-            ->setFrom([self::EMAIL => 'RecipesApp'])
-            ->setTo(self::DEBUG ? self::EMAIL : $email)
-            ->setBody(
-                "<h3>Hi, {$email}!</h3>
-                <p>Your password has been reset.</p>
-                <p>To create a new password go to: 
-                <a href='".self::URL."?email={$email}&resetPasswordToken={$resetPasswordToken}'>Link</a>
-                </p>
-                <p>Your password reset token is:</p>
-                <code><b>{$resetPasswordToken}</b></code>"
-            );
 
-        $mailer->send($message);
+        $mailer->sendResetPasswordEmail($email, $resetPasswordToken);
 
         return new Response();
     }

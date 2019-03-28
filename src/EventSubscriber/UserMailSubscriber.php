@@ -4,20 +4,17 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\User;
+use App\Services\MailerService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final class UserMailSubscriber implements EventSubscriberInterface
-{
-    private const DEBUG = true;
-    private const EMAIL = 'recipesapp.mailer@gmail.com';
-    private const URL = 'http://192.168.183.74/confirm_registration';
-    
+{    
     private $mailer;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(MailerService $mailer)
     {
         $this->mailer = $mailer;
     }
@@ -41,20 +38,6 @@ final class UserMailSubscriber implements EventSubscriberInterface
         $email = $user->getEmail();
         $confirmationToken = $user->getConfirmationToken();
 
-        $message = (new \Swift_Message('RecipesApp, registration successful!'))
-            ->setContentType('text/html')
-            ->setFrom([self::EMAIL => 'RecipesApp'])
-            ->setTo(self::DEBUG ? self::EMAIL : $email)
-            ->setBody(
-                "<h3>You did it!</h3>
-                <p>Hi, {$email}! You've successfully registered.</p>
-                <p>To confirm your account, go to: 
-                <a href='".self::URL."?email={$email}&confirmationToken={$confirmationToken}'>Link</a>
-                </p>
-                <p>Your registration token is:</p>
-                <code><b>{$confirmationToken}</b></code>"
-            );
-
-        $this->mailer->send($message);
+        $this->mailer->sendRegistrationEmail($email, $confirmationToken);
     }
 }
