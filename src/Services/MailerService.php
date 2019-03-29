@@ -6,7 +6,7 @@ final class MailerService
 {
     private const DEBUG = true;
     private const EMAIL = 'recipesapp.mailer@gmail.com';
-    private const CLIENT_URL = 'http://127.0.0.1:3000';
+    private const CLIENT_URL = 'http://192.168.183.74:3000';
     
     private $mailer;
 
